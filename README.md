@@ -123,5 +123,4 @@ install.packages(c("ggplot2", "performance", "ellipse", "caret", "lmtest", "car"
 * Le modèle simplifié (`model_reduced1`) offre le meilleur compromis entre **complexité** et **performance**.
 * Le facteur **smoker (fumeur)** a l’effet le plus significatif sur les charges.
 * Le modèle atteint une **bonne précision prédictive** selon les métriques RMSE et R².
-Cela donnerait un style similaire à un projet open source 💎
 
