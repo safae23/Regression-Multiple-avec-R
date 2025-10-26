@@ -1,0 +1,28 @@
+{
+    "id": "DBEB9E38",
+    "path": "~/_IDSCC4_S1/Modelisation/Project Regression Lineaire Multiple Avec R/Code Source Avec Dataset/Code Source.R",
+    "project_path": "Code Source.R",
+    "type": "r_source",
+    "hash": "3668914755",
+    "contents": "",
+    "dirty": false,
+    "created": 1735590107408.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "12,20",
+        "scrollLine": "0",
+        "disableDependencyDiscovery": "1"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1737572979,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1737572979,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,512 @@
+theme_minimal()+
+xlab("Observation")+
+ylab("Leviers")+
+scale_x_continuous(breaks=seq(0,n,by=5))
+# Sélectionner les points leviers
+idl <- analyses$levier>seuil_levier
+idl
+analyses$levier[idl]
+which(idl == TRUE)
+## La distance de Cook (leviers)
+influence <- influence.measures(model_reduced1)
+names(influence)
+colnames(influence$infmat)
+analyses$dcook <- influence$infmat[,"cook.d"]
+seuil_dcook <- 4/(n-p)
+# Visualisation des leviers
+ggplot(data=analyses,aes(x=obs,y=dcook))+
+geom_bar(stat="identity",fill="steelblue")+
+geom_hline(yintercept=seuil_dcook,col="red")+
+theme_minimal()+
+xlab("Observation")+
+ylab("Distance de cook")+
+scale_x_continuous(breaks=seq(0,n,by=5))
+# Sélectionner des points
+idl <- analyses$dcook>seuil_dcook
+idl
+analyses$dcook[idl]
+which(idl == TRUE)
+check_collinearity(model_reduced1)
+# Installer et charger le package "ellipse"
+install.packages("ellipse")
+library(ellipse)
+# Visualisation des coefficients avec intervalles de confiance
+n_coef <- length(coef(model_reduced1))
+par(mfrow = c(n_coef, n_coef))
+# Ajustez les marges ici
+par(mar = c(2, 2, 2, 2))
+for (i in 1:n_coef) {
+for (j in 1:n_coef) {
+if (i != j) {
+plot(ellipse(model_reduced1, c(i, j), level = 0.95, type = "l",
+xlab = paste("beta", i - 1, sep = ""),
+ylab = paste("beta", j - 1, sep = "")))
+# Utiliser coef(ll3) plutôt que coef(resume)
+points(coef(model_reduced1)[i], coef(model_reduced1)[j], pch = 3)
+IC <- rbind(coef(model_reduced1)[i] - coef(model_reduced1)[i + 1] * qt(0.975, ll3$df.res),
+coef(model_reduced1)[i] + qt(0.975, ll3$df.res) * coef(model_reduced1)[i + 1])
+lines(c(IC[1], IC[1], IC[2], IC[2], IC[1]),
+c(IC[1 + 1], IC[2 + 1], IC[2 + 1], IC[1 + 1], IC[1 + 1]),
+lty = 2)
+plot(c(IC[1], IC[1]), c(IC[1 + 1], IC[2 + 1]), lty = 2)
+lines(c(IC[1], IC[1]), lty = 2)
+}
+}
+}
+library(ellipse)
+# Visualisation des coefficients avec intervalles de confiance
+n_coef <- length(coef(model_reduced1))
+par(mfrow = c(n_coef, n_coef))
+# Ajustez les marges ici
+par(mar = c(2, 2, 2, 2))
+for (i in 1:n_coef) {
+for (j in 1:n_coef) {
+if (i != j) {
+plot(ellipse(model_reduced1, c(i, j), level = 0.95, type = "l",
+xlab = paste("beta", i - 1, sep = ""),
+ylab = paste("beta", j - 1, sep = "")))
+# Utiliser coef(ll3) plutôt que coef(resume)
+points(coef(model_reduced1)[i], coef(model_reduced1)[j], pch = 3)
+IC <- rbind(coef(model_reduced1)[i] - coef(model_reduced1)[i + 1] * qt(0.975, ll3$df.res),
+coef(model_reduced1)[i] + qt(0.975, ll3$df.res) * coef(model_reduced1)[i + 1])
+lines(c(IC[1], IC[1], IC[2], IC[2], IC[1]),
+c(IC[1 + 1], IC[2 + 1], IC[2 + 1], IC[1 + 1], IC[1 + 1]),
+lty = 2)
+plot(c(IC[1], IC[1]), c(IC[1 + 1], IC[2 + 1]), lty = 2)
+lines(c(IC[1], IC[1]), lty = 2)
+}
+}
+}
+# Ajustez les marges ici
+par(mar = c(2, 2, 2, 2))
+for (i in 1:n_coef) {
+for (j in 1:n_coef) {
+if (i != j) {
+plot(ellipse(model_reduced1, c(i, j), level = 0.95, type = "l",
+xlab = paste("beta", i - 1, sep = ""),
+ylab = paste("beta", j - 1, sep = "")))
+# Utiliser coef(ll3) plutôt que coef(resume)
+points(coef(model_reduced1)[i], coef(model_reduced1)[j], pch = 3)
+IC <- rbind(coef(model_reduced1)[i] - coef(model_reduced1)[i + 1] * qt(0.975, model_reduced1$df.res),
+coef(model_reduced1)[i] + qt(0.975, ll3$df.res) * coef(model_reduced1)[i + 1])
+lines(c(IC[1], IC[1], IC[2], IC[2], IC[1]),
+c(IC[1 + 1], IC[2 + 1], IC[2 + 1], IC[1 + 1], IC[1 + 1]),
+lty = 2)
+plot(c(IC[1], IC[1]), c(IC[1 + 1], IC[2 + 1]), lty = 2)
+lines(c(IC[1], IC[1]), lty = 2)
+}
+}
+}
+# Ajustez les marges ici
+par(mar = c(2, 2, 2, 2))
+for (i in 1:n_coef) {
+for (j in 1:n_coef) {
+if (i != j) {
+plot(ellipse(model_reduced1, c(i, j), level = 0.95, type = "l",
+xlab = paste("beta", i - 1, sep = ""),
+ylab = paste("beta", j - 1, sep = "")))
+# Utiliser coef(ll3) plutôt que coef(resume)
+points(coef(model_reduced1)[i], coef(model_reduced1)[j], pch = 3)
+IC <- rbind(coef(model_reduced1)[i] - coef(model_reduced1)[i + 1] * qt(0.975, model_reduced1$df.res),
+coef(model_reduced1)[i] + qt(0.975, model_reduced1$df.res) * coef(model_reduced1)[i + 1])
+lines(c(IC[1], IC[1], IC[2], IC[2], IC[1]),
+c(IC[1 + 1], IC[2 + 1], IC[2 + 1], IC[1 + 1], IC[1 + 1]),
+lty = 2)
+plot(c(IC[1], IC[1]), c(IC[1 + 1], IC[2 + 1]), lty = 2)
+lines(c(IC[1], IC[1]), lty = 2)
+}
+}
+}
+# Charger les bibliothèques
+library(ggplot2)
+library(readxl)
+# Charger les données
+insurance <- read.csv("Medical_insurance.csv")
+# Afficher les premières lignes des données
+View(insurance)
+# Résumé statistique des données
+summary_stats <- summary(insurance)
+print(summary_stats)
+# Afficher la structure des données
+str(insurance)
+#visualisation des donnnees :
+plot(insurance)
+# Scatter plot entre "charges" et "age"
+ggplot(insurance, aes(x = age, y = charges)) +
+geom_point() +
+labs(title = "Scatter Plot - Charges vs Age", x = "Age", y = "Charges")
+# Scatter plot entre "charges" et "bmi"
+ggplot(insurance, aes(x = bmi, y = charges)) +
+geom_point() +
+labs(title = "Scatter Plot - Charges vs BMI", x = "BMI", y = "Charges")
+# Scatter plot entre "sex" et "charges"
+ggplot(insurance, aes(x = sex, y = charges, color = sex)) +
+geom_jitter(width = 0.2, height = 0) +  # Ajouter un léger bruit pour visualisation
+labs(title = "Scatter Plot - Charges vs Sex", x = "Sex", y = "Charges")
+# Scatter plot entre "charges" et "children"
+ggplot(insurance, aes(x = children, y = charges)) +
+geom_point() +
+labs(title = "Scatter Plot - Charges vs Children", x = "Children", y = "Charges")
+# Scatter plot entre "charges" et "smoker"
+ggplot(insurance, aes(x = smoker, y = charges, color = smoker)) +
+geom_jitter(width = 0.2, height = 0) +
+labs(title = "Scatter Plot - Charges vs Smoker", x = "Smoker", y = "Charges")
+# Scatter plot entre "charges" et "region"
+ggplot(insurance, aes(x = region, y = charges, color = region)) +
+geom_jitter(width = 0.2, height = 0) +
+labs(title = "Scatter Plot - Charges vs Region", x = "Region", y = "Charges")
+ll1=lm(charges ~ age+sex+bmi+children+smoker+region, data=insurance)
+summary(ll1)
+ll2=lm(charges ~ age+bmi+children+smoker+region, data=insurance)
+summary(ll2)
+ll3=lm(charges ~ age+bmi+children+smoker, data=insurance)
+summary(ll3)
+coef(ll3)
+confint(ll3)
+fitted(ll3)
+resid(ll3)
+res<-resid(ll3)
+plot(res,main="Résidus")
+abline(h=0,col="red")
+plot(fitted(ll3),res,main="Residuals vs. fitted")
+abline(h=0,col="red")
+## Prédiction
+prev=predict(ll3, newdata=data.frame(age=80,bmi=28.90,children=3,smoker="yes"))
+prev
+round(prev, digits=2)
+## Points levier
+library(ggplot2)
+alpha <- 0.05
+n <- dim(insurance)[1]
+p <- 2 # Dernier modèle : ll
+analyses <- data.frame(obs=1:n)
+analyses$levier <- hat(model.matrix(ll3))
+seuil_levier <- 2*p/n
+# Visualisation des leviers
+ggplot(data=analyses,aes(x=obs,y=levier))+
+geom_bar(stat="identity",fill="steelblue")+
+geom_hline(yintercept=seuil_levier,col="red")+
+theme_minimal()+
+xlab("Observation")+
+ylab("Leviers")+
+scale_x_continuous(breaks=seq(0,n,by=5))
+# Sélectionner les points leviers
+idl <- analyses$levier>seuil_levier
+idl
+analyses$levier[idl]
+which(idl == TRUE)
+## La distance de Cook (leviers)
+influence <- influence.measures(ll3)
+names(influence)
+colnames(influence$infmat)
+analyses$dcook <- influence$infmat[,"cook.d"]
+seuil_dcook <- 4/(n-p)
+# Visualisation des leviers
+ggplot(data=analyses,aes(x=obs,y=dcook))+
+geom_bar(stat="identity",fill="steelblue")+
+geom_hline(yintercept=seuil_dcook,col="red")+
+theme_minimal()+
+xlab("Observation")+
+ylab("Distance de cook")+
+scale_x_continuous(breaks=seq(0,n,by=5))
+# Sélectionner des points
+idl <- analyses$dcook>seuil_dcook
+idl
+analyses$dcook[idl]
+which(idl == TRUE)
+# Calculer les VIF
+vif_values <- car::vif(ll3)
+# Afficher les VIF
+print(vif_values)
+# Afficher les VIF
+install.packages("performance")
+library(performance)
+install.packages("caret")
+library(caret)
+check_collinearity(ll3)
+cor(savings)
+library(caret)
+install.packages("lmtest")
+library(lmtest)
+# Tester l'homoscédasticité (égalité des variances)
+# Test de Breusch-Pagan
+bptest_result <- bptest(ll3)
+print(bptest_result)
+# Tester la normalité des résidus
+shapiro_test_result <- shapiro.test(ll3$residuals)
+print(shapiro_test_result)
+# Installer et charger le package "ellipse"
+install.packages("ellipse")
+library(ellipse)
+# Charger explicitement la bibliothèque "zoo"
+library(zoo)
+# Visualisation des coefficients avec intervalles de confiance
+n_coef <- length(coef(ll3))
+par(mfrow = c(n_coef, n_coef))
+# Ajustez les marges ici
+par(mar = c(2, 2, 2, 2))
+for (i in 1:n_coef) {
+for (j in 1:n_coef) {
+if (i != j) {
+plot(ellipse(ll3, c(i, j), level = 0.95, type = "l",
+xlab = paste("beta", i - 1, sep = ""),
+ylab = paste("beta", j - 1, sep = "")))
+# Utiliser coef(ll3) plutôt que coef(resume)
+points(coef(ll3)[i], coef(ll3)[j], pch = 3)
+IC <- rbind(coef(ll3)[i] - coef(ll3)[i + 1] * qt(0.975, ll3$df.res),
+coef(ll3)[i] + qt(0.975, ll3$df.res) * coef(ll3)[i + 1])
+lines(c(IC[1], IC[1], IC[2], IC[2], IC[1]),
+c(IC[1 + 1], IC[2 + 1], IC[2 + 1], IC[1 + 1], IC[1 + 1]),
+lty = 2)
+plot(c(IC[1], IC[1]), c(IC[1 + 1], IC[2 + 1]), lty = 2)
+lines(c(IC[1], IC[1]), lty = 2)
+}
+}
+}
+rm(list=ls())
+# 1. Charger les bibliothèques nécessaires
+library(ggplot2)
+library(carData)
+library(car)
+library(zoo)
+library(lmtest)
+library(caret)
+library(performance)
+# 2. Charger les données
+insurance <- read.csv("Medical_insurance.csv")
+rm(list=ls())
+rm(list=ls())
+# 1. Charger les bibliothèques nécessaires
+library(ggplot2)
+library(carData)
+library(car)
+library(zoo)
+library(lmtest)
+library(caret)
+library(performance)
+# 2. Charger les données
+insurance <- read.csv("Medical_insurance.csv")
+# 3. Exploration des données
+# Afficher un aperçu et un résumé statistique
+View(insurance)
+summary(insurance)
+str(insurance)
+# Vérifier les valeurs manquantes
+cat("Nombre de valeurs manquantes :", sum(is.na(insurance)), "\n")
+# 4. Prétraitement des données
+# Conversion des colonnes catégoriques en facteurs
+insurance$sex <- factor(insurance$sex)
+insurance$smoker <- factor(insurance$smoker)
+insurance$region <- factor(insurance$region)
+# 6. Division des données en jeu d'entraînement et jeu de test
+# Diviser les données de manière séquentielle
+print(class(insurance))  # Vérifiez le type de l'objet
+print(dim(insurance))    # Vérifiez les dimensions de l'objet
+n <- nrow(insurance)  # Nombre total de lignes dans le dataset
+train_size <- floor(0.8 * n)  # Calculer 80 % des lignes pour l'entraînement
+# Jeu d'entraînement : des lignes 1 à 80 %
+train <- insurance[1:train_size, ]
+# Jeu de test : le reste des lignes
+test <- insurance[(train_size + 1):n, ]
+# Vérifier les tailles
+cat("Nombre de lignes dans le jeu d'entraînement :", nrow(train), "\n")
+cat("Nombre de lignes dans le jeu de test :", nrow(test),"\n")
+# 7. Modélisation (Régression linéaire multiple)
+# Modèle complet
+model_full <- lm(charges ~ age + sex + bmi + children + smoker + region, data = train)
+summary(model_full)
+rm(list=ls())
+# 1. Charger les bibliothèques nécessaires
+library(ggplot2)
+library(carData)
+library(car)
+library(zoo)
+library(lmtest)
+library(caret)
+library(performance)
+# 2. Charger les données
+insurance <- read.csv("insurance.csv")
+# 3. Exploration des données
+# Afficher un aperçu et un résumé statistique
+View(insurance)
+summary(insurance)
+str(insurance)
+# Vérifier les valeurs manquantes
+cat("Nombre de valeurs manquantes :", sum(is.na(insurance)), "\n")
+# 4. Prétraitement des données
+# Conversion des colonnes catégoriques en facteurs
+insurance$sex <- factor(insurance$sex)
+insurance$smoker <- factor(insurance$smoker)
+insurance$region <- factor(insurance$region)
+# Vérifiez les changements
+str(insurance)
+# 5. Visualisation initiale
+#visualisation des donnnees :
+plot(insurance)
+# Scatter plots pour explorer les relations entre les variables
+ggplot(insurance, aes(x = age, y = charges)) +
+geom_point(color = "blue") +
+labs(title = "Charges vs Age", x = "Age", y = "Charges")
+# Scatter plot entre "sex" et "charges"
+ggplot(insurance, aes(x = sex, y = charges, color = sex)) +
+geom_jitter(width = 0.2, height = 0) +  # Ajouter un léger bruit pour visualisation
+labs(title = "Scatter Plot - Charges vs Sex", x = "Sex", y = "Charges")
+# Scatter plot entre "charges" et "bmi"
+ggplot(insurance, aes(x = bmi, y = charges)) +
+geom_point(color = "green") +
+labs(title = "Charges vs BMI", x = "BMI", y = "Charges")
+# Scatter plot entre "charges" et "children"
+ggplot(insurance, aes(x = children, y = charges)) +
+geom_point(color="red") +
+labs(title = "Scatter Plot - Charges vs Children", x = "Children", y = "Charges")
+# Scatter plot entre "charges" et "smoker"
+ggplot(insurance, aes(x = smoker, y = charges, color = factor(smoker))) +
+geom_jitter(width = 0.2, height = 0) +
+labs(title = "Charges vs Smoker", x = "Smoker", y = "Charges")
+# Scatter plot entre "charges" et "region"
+ggplot(insurance, aes(x = region, y = charges, color = region)) +
+geom_jitter(width = 0.2, height = 0) +
+labs(title = "Scatter Plot - Charges vs Region", x = "Region", y = "Charges")
+# 6. Division des données en jeu d'entraînement et jeu de test
+# Diviser les données de manière séquentielle
+print(class(insurance))  # Vérifiez le type de l'objet
+print(dim(insurance))    # Vérifiez les dimensions de l'objet
+n <- nrow(insurance)  # Nombre total de lignes dans le dataset
+train_size <- floor(0.8 * n)  # Calculer 80 % des lignes pour l'entraînement
+# Jeu d'entraînement : des lignes 1 à 80 %
+train <- insurance[1:train_size, ]
+# Jeu de test : le reste des lignes
+test <- insurance[(train_size + 1):n, ]
+# Vérifier les tailles
+cat("Nombre de lignes dans le jeu d'entraînement :", nrow(train), "\n")
+cat("Nombre de lignes dans le jeu de test :", nrow(test),"\n")
+# 7. Modélisation (Régression linéaire multiple)
+# Modèle complet
+model_full <- lm(charges ~ age + sex + bmi + children + smoker + region, data = train)
+summary(model_full)
+rm(list=ls())
+# ANCOVA
+library(tidyverse)
+install.packages('tidyverse')
+rm(list=ls())
+# ANCOVA
+library(tidyverse)
+library(ggpubr)
+install.packages('ggpubr')
+rm(list=ls())
+table1 <- read.table("C:/Users/safae/Downloads/emballageA.txt", sep = "\t", header=T)   ## Un seul facteur
+#table1 <- read.table("C://.../emballage2.txt", sep = "\t", header=T) ## deux facteurs
+ventes <- table1[,1]
+View(table1)
+ventes <- table1[,1]
+#facteursA <- table1[,2] #(Emballage)
+#facteursB <- table1[,3] # (Ville)
+# Pour l'ANOVA :
+# Langage R : fonction aov
+# ANOVA un facteur A
+anovaA <- aov(ventes ~ A, data=table1)
+summary(anovaA)
+list(anovaA)
+# Pour l'ANOVA :
+# Langage R : fonction aov
+# ANOVA un facteur A
+anovaA <- aov(ventes ~ A, data=table1)
+summary(anovaA)
+list(anovaA)
+# Check pour le nombre de répétitions dans le facteur
+A <- table1[,2]
+npk <- data.frame(block = gl(5,3), A = factor(A), ventes = ventes ) # See replications help
+replications(~ . - ventes , npk) # donne 3 block de 5 répétitions
+# ANOVA deux facteurs A et B
+anovaAB <- aov(ventes ~ A + B, data=table1)
+rm(list=ls())
+table1 <- read.table("C:/Users/safae/Downloads/emballage2.txt", sep = "\t", header=T)   ## Un seul facteur
+#table1 <- read.table("C://.../emballage2.txt", sep = "\t", header=T) ## deux facteurs
+#table1 = as.matrix(table1)
+#table1 = data.frame(x, y)
+# ventes en fonction de facteur A
+# ===============================
+View(table1)
+ventes <- table1[,1]
+#facteursA <- table1[,2] #(Emballage)
+#facteursB <- table1[,3] # (Ville)
+# Pour l'ANOVA :
+# Langage R : fonction aov
+# ANOVA un facteur A
+anovaA <- aov(ventes ~ A, data=table1)
+summary(anovaA)
+list(anovaA)
+# Check pour le nombre de répétitions dans le facteur
+A <- table1[,2]
+npk <- data.frame(block = gl(5,3), A = factor(A), ventes = ventes ) # See replications help
+replications(~ . - ventes , npk) # donne 3 block de 5 répétitions
+# ANOVA deux facteurs A et B
+anovaAB <- aov(ventes ~ A + B, data=table1)
+summary(anovaAB)
+# ANOVA deux facteurs A et B avec interaction
+anovaABI <- aov(ventes ~ A + B + A*B, data=table1)
+summary(anovaABI)
+rm(list=ls())
+# ANCOVA
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+library(broom)
+library(datarium)
+install.packages('datarium')
+rm(list=ls())
+# ANCOVA
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+library(broom)
+library(datarium)
+# Charger et préparer les données
+data("anxiety", package = "datarium")
+anxiety <- anxiety %>%
+select(id, group, t1, t3) %>%
+rename(pretest = t1, posttest = t3)
+anxiety[14, "posttest"] <- 19
+# Inspectez les données en affichant une ligne aléatoire par groupe
+set.seed(123)
+anxiety %>% sample_n_by(group, size = 1)
+rm(list=ls())
+# 1. Installer les bibliothèques nécessaires
+install.packages("ggplot2")
+install.packages("performance")
+# 2. Charger les bibliothèques nécessaires
+library(ggplot2)
+library(performance)
+library(ellipse)
+library(zoo)
+library(lmtest)
+library(car)
+library(carData)
+# 2. Charger les bibliothèques nécessaires
+library(ggplot2)
+library(performance)
+library(ellipse)
+library(zoo)
+library(lmtest)
+library(car)
+library(carData)
+# 3. Charger les données
+insurance <- read.csv("insurance.csv")
+# 2. Charger les bibliothèques nécessaires
+library(ggplot2)
+library(performance)
+library(ellipse)
+library(zoo)
+library(lmtest)
+library(car)
+library(carData)
+# 3. Charger les données
+insurance <- read.csv("insurance.csv")
+View(insurance)
+# 4. Exploration des données
+# Afficher un aperçu et un résumé statistique
+View(insurance)
+summary(insurance)
+str(insurance)
+# Vérifier les valeurs manquantes
+cat("Nombre de valeurs manquantes :", sum(is.na(insurance)), "\n")
